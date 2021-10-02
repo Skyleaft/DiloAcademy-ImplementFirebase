@@ -6,7 +6,7 @@
 *.meta linguist-generated
 *.prefab linguist-generated
 *.unity linguist-generated
-*.so linguist-generated
+*.so filter=lfs diff=lfs merge=lfs -text
 #Builds
 *.apk filter=lfs diff=lfs merge=lfs -text
 # 3D models
