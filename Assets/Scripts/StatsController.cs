@@ -48,7 +48,7 @@ public class StatsController : MonoBehaviour
     {
         double upgradeCost = GetUpgradeCost();
         //jika gold tidak memenuhi kembalikan nilai
-        if (GameManager.Instance.TotalGold < upgradeCost)
+        if (UserDataManager.Progress.Gold < upgradeCost)
         {
             return;
         }

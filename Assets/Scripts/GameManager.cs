@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
 
     // Fungsi [Range (min, max)] ialah menjaga value agar tetap berada di antara min dan max-nya
 
+    public float SaveDelay = 5f;
     [Range(0f, 1f)]
     public float AutoCollectPercentage = 0.1f;
 
@@ -37,13 +38,13 @@ public class GameManager : MonoBehaviour
 
 
 
+
     private List<ResourceController> _activeResources = new List<ResourceController>();
     private List<TapText> _tapTextPool = new List<TapText>();
     private float _collectSecond;
+    private float _saveDelayCounter;
 
 
-    [SerializeField]
-    public double TotalGold { get; private set; }
 
 
     // Start is called before the first frame update
@@ -56,8 +57,10 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        float deltaTime = Time.unscaledDeltaTime;
+        _saveDelayCounter -= deltaTime;
         // Fungsi untuk selalu mengeksekusi CollectPerSecond setiap detik
-        _collectSecond += Time.unscaledDeltaTime;
+        _collectSecond += deltaTime;
         if (_collectSecond >= 1f)
         {
             CollectPerSecond();
@@ -75,31 +78,31 @@ public class GameManager : MonoBehaviour
     private void CheckAchiveGold()
     {
         //jika gold melebihi kriteria tertentu maka panggil method achivementcontroller kemudian kirim type gold dan string value
-        if (TotalGold >= 1000)
+        if (UserDataManager.Progress.Gold >= 1000)
         {
             AchievementController.Instance.UnlockAchievement(AchievementType.Gold, "1000");
         }
-        if (TotalGold >= 10000)
+        if (UserDataManager.Progress.Gold >= 10000)
         {
             AchievementController.Instance.UnlockAchievement(AchievementType.Gold, "10000");
         }
-        if (TotalGold >= 100000)
+        if (UserDataManager.Progress.Gold >= 100000)
         {
             AchievementController.Instance.UnlockAchievement(AchievementType.Gold, "100000");
         }
-        if (TotalGold >= 1000000)
+        if (UserDataManager.Progress.Gold >= 1000000)
         {
             AchievementController.Instance.UnlockAchievement(AchievementType.Gold, "1000000");
         }
-        if (TotalGold >= 100000000)
+        if (UserDataManager.Progress.Gold >= 100000000)
         {
             AchievementController.Instance.UnlockAchievement(AchievementType.Gold, "100000000");
         }
-        if (TotalGold >= 1000000000)
+        if (UserDataManager.Progress.Gold >= 1000000000)
         {
             AchievementController.Instance.UnlockAchievement(AchievementType.Gold, "1000000000");
         }
-        if (TotalGold >= 1000000000000)
+        if (UserDataManager.Progress.Gold >= 1000000000000)
         {
             AchievementController.Instance.UnlockAchievement(AchievementType.Gold, "1000000000000");
         }
@@ -108,7 +111,7 @@ public class GameManager : MonoBehaviour
     {
         foreach (ResourceController resource in _activeResources)
         {
-            bool isBuyable = TotalGold >= resource.GetUpgradeCost();
+            bool isBuyable = UserDataManager.Progress.Gold >= resource.GetUpgradeCost();
             resource.ResourceImage.sprite = ResourcesSprites[isBuyable ? 1 : 0];
         }
 
@@ -116,18 +119,20 @@ public class GameManager : MonoBehaviour
 
     private void AddAllResources()
     {
+        int index = 0;
         bool showResources = true;
         foreach (ResourceConfig config in ResourcesConfigs)
         {
             GameObject obj = Instantiate(ResourcePrefab.gameObject, ResourcesParent, false);
             ResourceController resource = obj.GetComponent<ResourceController>();
-            resource.SetConfig(config);
+            resource.SetConfig(index, config);
             obj.gameObject.SetActive(showResources);
             if (showResources && !resource.IsUnlocked)
             {
                 showResources = false;
             }
             _activeResources.Add(resource);
+            index++;
         }
     }
 
@@ -197,10 +202,14 @@ public class GameManager : MonoBehaviour
     public void AddGold(double value)
 
     {
-        TotalGold += value;
+        UserDataManager.Progress.Gold += value;
         //tambahan format currency lebih baik
-        GoldInfo.text = $"Gold: { AbbrevationUtility.AbbreviateNumber(TotalGold) }";
-
+        GoldInfo.text = $"Gold: { AbbrevationUtility.AbbreviateNumber(UserDataManager.Progress.Gold) }";
+        UserDataManager.Save(_saveDelayCounter < 0f);
+        if (_saveDelayCounter < 0f)
+        {
+            _saveDelayCounter = SaveDelay;
+        }
     }
 }
 
