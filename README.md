@@ -1,5 +1,5 @@
 # DiloAcademy-IncrementalGame
-Tugas Dilo Academy - Game Programming Chapter 2
+Tugas Dilo Academy - Game Programming Chapter 8
 
 Fitur Tambahan
 - Better Gold Currency
