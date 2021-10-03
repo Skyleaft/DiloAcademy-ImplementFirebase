@@ -182,7 +182,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: Load Local
 --- !u!222 &119707859
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -286,7 +286,7 @@ GameObject:
   - component: {fileID: 1311731078}
   - component: {fileID: 1311731077}
   m_Layer: 5
-  m_Name: Button
+  m_Name: LocalButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -309,7 +309,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 21.800003, y: -106}
+  m_AnchoredPosition: {x: 0, y: -80}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1311731077
@@ -420,7 +420,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b39690f29db4a674c871dfbf5d58b3b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _localButton: {fileID: 0}
+  _localButton: {fileID: 1311731077}
   _cloudButton: {fileID: 0}
 --- !u!4 &1356382608
 Transform:

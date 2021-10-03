@@ -69,7 +69,7 @@ public class GameManager : MonoBehaviour
         }
         CheckResourceCost();
         CheckAchiveGold();
-        CoinIcon.transform.localScale = Vector3.LerpUnclamped(CoinIcon.transform.localScale, Vector3.one * 2f, 0.15f);
+        CoinIcon.transform.localScale = Vector3.LerpUnclamped(CoinIcon.transform.localScale, Vector3.one * 1.2f, 0.15f);
         CoinIcon.transform.Rotate(0f, 0f, Time.deltaTime * -100f);
 
     }
@@ -165,7 +165,7 @@ public class GameManager : MonoBehaviour
         //tambahan format currency lebih baik
         tapText.Text.text = $"+{ AbbrevationUtility.AbbreviateNumber(output) }";
         tapText.gameObject.SetActive(true);
-        CoinIcon.transform.localScale = Vector3.one * 1.75f;
+        CoinIcon.transform.localScale = Vector3.one * 0.75f;
         AddGold(output);
     }
 
@@ -205,11 +205,13 @@ public class GameManager : MonoBehaviour
         UserDataManager.Progress.Gold += value;
         //tambahan format currency lebih baik
         GoldInfo.text = $"Gold: { AbbrevationUtility.AbbreviateNumber(UserDataManager.Progress.Gold) }";
-        UserDataManager.Save(_saveDelayCounter < 0f);
-        if (_saveDelayCounter < 0f)
-        {
-            _saveDelayCounter = SaveDelay;
-        }
+        //simpan ke local
+        UserDataManager.Save();
+        //UserDataManager.Save(_saveDelayCounter < 0f);
+        //if (_saveDelayCounter < 0f)
+        //{
+        //    _saveDelayCounter = SaveDelay;
+        //}
     }
 }
 

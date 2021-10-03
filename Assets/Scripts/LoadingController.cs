@@ -9,6 +9,9 @@ public class LoadingController : MonoBehaviour
     [SerializeField] private Button _cloudButton;
     private void Start()
     {
+
+
+        //jika button local di click
         _localButton.onClick.AddListener(() =>
         {
             SetButtonInteractable(false);
@@ -17,12 +20,11 @@ public class LoadingController : MonoBehaviour
         });
 
 
-
-        _cloudButton.onClick.AddListener(() =>
-        {
-            SetButtonInteractable(false);
-            StartCoroutine(UserDataManager.LoadFromCloud(() => SceneManager.LoadScene(1)));
-        });
+        //_cloudButton.onClick.AddListener(() =>
+        //{
+        //    SetButtonInteractable(false);
+        //    StartCoroutine(UserDataManager.LoadFromCloud(() => SceneManager.LoadScene(1)));
+        //});
         // Button didisable agar mencegah tidak terjadinya spam klik ketika
         // proses onclick pada button sedang berjalan
     }
@@ -31,6 +33,6 @@ public class LoadingController : MonoBehaviour
     private void SetButtonInteractable(bool interactable)
     {
         _localButton.interactable = interactable;
-        _cloudButton.interactable = interactable;
+        //_cloudButton.interactable = interactable;
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 public static class UserDataManager
 {
     private const string PROGRESS_KEY = "Progress";
-    public static UserProgressData Progress;
+    public static UserProgressData Progress = new UserProgressData();
 
 
     public static void Load()
@@ -16,7 +16,6 @@ public static class UserDataManager
         if (!PlayerPrefs.HasKey(PROGRESS_KEY))
         {
             // Jika tidak ada, maka buat data baru
-            Progress = new UserProgressData();
             Save();
         }
         else
@@ -33,14 +32,16 @@ public static class UserDataManager
         if (!PlayerPrefs.HasKey(PROGRESS_KEY))
         {
             // Jika tidak ada, maka simpan data baru
-            // dan upload ke Cloud
-            Save(true);
+            Debug.Log("simpen "+PROGRESS_KEY);
+            Save();
         }
         else
         {
             // Jika ada, maka timpa progress dengan yang sebelumnya
+            Debug.Log("ada " + PROGRESS_KEY);
             string json = PlayerPrefs.GetString(PROGRESS_KEY);
             Progress = JsonUtility.FromJson<UserProgressData>(json);
+            Debug.Log(Progress.Gold);
         }
     }
 
@@ -86,13 +87,13 @@ public static class UserDataManager
         string json = JsonUtility.ToJson(Progress);
         PlayerPrefs.SetString(PROGRESS_KEY, json);
 
-        if (uploadToCloud)
-        {
-            AnalyticsManager.SetUserProperties("gold", Progress.Gold.ToString());
-            byte[] data = Encoding.Default.GetBytes(json);
-            StorageReference targetStorage = GetTargetCloudStorage();
-            targetStorage.PutBytesAsync(data);
-        }
+        //if (uploadToCloud)
+        //{
+        //    AnalyticsManager.SetUserProperties("gold", Progress.Gold.ToString());
+        //    byte[] data = Encoding.Default.GetBytes(json);
+        //    StorageReference targetStorage = GetTargetCloudStorage();
+        //    targetStorage.PutBytesAsync(data);
+        //}
     }
 
 
