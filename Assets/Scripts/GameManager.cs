@@ -22,6 +22,9 @@ public class GameManager : MonoBehaviour
 
     // Fungsi [Range (min, max)] ialah menjaga value agar tetap berada di antara min dan max-nya
 
+    [SerializeField]
+    private AudioSource sfxCoin;
+    public AudioSource sfxAchive;
     public float SaveDelay = 5f;
     [Range(0f, 1f)]
     public float AutoCollectPercentage = 0.1f;
@@ -159,6 +162,7 @@ public class GameManager : MonoBehaviour
                 output += resource.GetOutput();
             }
         }
+        sfxCoin.Play();
         TapText tapText = GetOrCreateTapText();
         tapText.transform.SetParent(parent, false);
         tapText.transform.position = tapPosition;

@@ -73,6 +73,7 @@ public class AchievementController : MonoBehaviour
         _popUpText.text = achievement.Title;
         _popUpShowDurationCounter = _popUpShowDuration;
         _popUpTransform.localScale = Vector2.right;
+        GameManager.Instance.sfxAchive.Play();
     }
 
 }
