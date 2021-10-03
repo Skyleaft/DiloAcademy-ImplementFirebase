@@ -205,13 +205,11 @@ public class GameManager : MonoBehaviour
         UserDataManager.Progress.Gold += value;
         //tambahan format currency lebih baik
         GoldInfo.text = $"Gold: { AbbrevationUtility.AbbreviateNumber(UserDataManager.Progress.Gold) }";
-        //simpan ke local
-        UserDataManager.Save();
-        //UserDataManager.Save(_saveDelayCounter < 0f);
-        //if (_saveDelayCounter < 0f)
-        //{
-        //    _saveDelayCounter = SaveDelay;
-        //}
+        UserDataManager.Save(_saveDelayCounter < 0f);
+        if (_saveDelayCounter < 0f)
+        {
+            _saveDelayCounter = SaveDelay;
+        }
     }
 }
 

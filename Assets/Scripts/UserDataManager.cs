@@ -10,21 +10,6 @@ public static class UserDataManager
     public static UserProgressData Progress = new UserProgressData();
 
 
-    public static void Load()
-    {
-        // Cek apakah ada data yang tersimpan sebagai PROGRESS_KEY
-        if (!PlayerPrefs.HasKey(PROGRESS_KEY))
-        {
-            // Jika tidak ada, maka buat data baru
-            Save();
-        }
-        else
-        {
-            // Jika ada, maka timpa progress dengan yang sebelumnya
-            string json = PlayerPrefs.GetString(PROGRESS_KEY);
-            Progress = JsonUtility.FromJson<UserProgressData>(json);
-        }
-    }
 
     public static void LoadFromLocal()
     {
@@ -32,16 +17,13 @@ public static class UserDataManager
         if (!PlayerPrefs.HasKey(PROGRESS_KEY))
         {
             // Jika tidak ada, maka simpan data baru
-            Debug.Log("simpen "+PROGRESS_KEY);
-            Save();
+            Save(true);
         }
         else
         {
             // Jika ada, maka timpa progress dengan yang sebelumnya
-            Debug.Log("ada " + PROGRESS_KEY);
             string json = PlayerPrefs.GetString(PROGRESS_KEY);
             Progress = JsonUtility.FromJson<UserProgressData>(json);
-            Debug.Log(Progress.Gold);
         }
     }
 
@@ -69,6 +51,7 @@ public static class UserDataManager
         // Jika sukses mendownload, maka simpan data hasil download
         if (isSuccessfull)
         {
+            Debug.Log("ada ");
             Save();
         }
         else
@@ -87,13 +70,13 @@ public static class UserDataManager
         string json = JsonUtility.ToJson(Progress);
         PlayerPrefs.SetString(PROGRESS_KEY, json);
 
-        //if (uploadToCloud)
-        //{
-        //    AnalyticsManager.SetUserProperties("gold", Progress.Gold.ToString());
-        //    byte[] data = Encoding.Default.GetBytes(json);
-        //    StorageReference targetStorage = GetTargetCloudStorage();
-        //    targetStorage.PutBytesAsync(data);
-        //}
+        if (uploadToCloud)
+        {
+            AnalyticsManager.SetUserProperties("gold", Progress.Gold.ToString());
+            byte[] data = Encoding.Default.GetBytes(json);
+            StorageReference targetStorage = GetTargetCloudStorage();
+            targetStorage.PutBytesAsync(data);
+        }
     }
 
 
